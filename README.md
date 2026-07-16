@@ -7,6 +7,7 @@ It talks to any **OpenAI-compatible** API (local gateway, reverse proxy, cloud p
 
 | | |
 |---|---|
+| **Author** | [Devano Naufal](https://github.com/devanonaufal) |
 | **Language** | Go (backend) + plain HTML/CSS/JS (frontend) |
 | **Database** | SQLite (one folder, no separate DB server) |
 | **Default port** | `3050` |
@@ -82,7 +83,7 @@ You also need:
 ### 1. Get the code
 
 ```bash
-git clone https://github.com/YOUR_USER/litewebui.git
+git clone https://github.com/devanonaufal/litewebui.git
 cd litewebui
 ```
 
@@ -411,12 +412,19 @@ Issues and pull requests are welcome.
 
 ---
 
+## Author
+
+**Devano Naufal**  
+GitHub: [devanonaufal](https://github.com/devanonaufal)
+
+---
+
 ## License
 
-[MIT](LICENSE) © litewebui contributors
+[MIT](LICENSE) © 2026 Devano Naufal
 
 ---
 
 ## Credits
 
-Built as a minimal alternative to heavyweight chat frontends: one binary, SQLite, OpenAI-compatible APIs, and a focused browser UI.
+Created by **Devano Naufal** as a minimal alternative to heavyweight chat frontends: one binary, SQLite, OpenAI-compatible APIs, and a focused browser UI.

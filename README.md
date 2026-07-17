@@ -20,7 +20,7 @@ It talks to any **OpenAI-compatible** API (local gateway, reverse proxy, cloud p
 
 ![brengseek chat interface](https://i.imgur.com/iOKi5U7.png)
 
-*Dark theme chat UI — sidebar, streaming messages, model picker, and composer.*
+*Light-first chat UI — sidebar, streaming messages, model chip, private mode, and composer (desktop & mobile).*
 
 ---
 
@@ -44,11 +44,17 @@ Most full chat platforms are heavy (many services, high RAM, complex setup).
 
 ### For everyday use
 - Sign-in page (session cookie; survives container restart when data is on a volume)
-- Sidebar: new chat, recent chats, rename, delete, pin/archive (as implemented in the UI)
+- Sidebar: new chat, recents, pin / archive / rename / delete
 - Streaming replies (text appears as the model generates it)
-- Attachments: upload files/images and send them with the message
-- Paste screenshots (Ctrl+V) or drag-and-drop files onto the composer
-- Settings page: API base URL, API key, connection test, model list from upstream
+- Attachments: upload files/images; paste screenshots (Ctrl+V) or drag-and-drop onto the composer
+- **Model picker** in the composer (chip) + Settings (API base URL, key, Test Connection, model list)
+- **Theme:** light (default), dark, or system — stored in the browser
+- **Private mode:** dimmed UI; chat is **not listed** in Recents (not true zero-retention)
+- **Dictation** and **voice mode:**
+  - Chromium: Web Speech API when available
+  - Firefox / Safari / others: MediaRecorder → `POST /api/v1/audio/transcriptions` (Whisper-style; needs an upstream that supports it)
+- Adaptive layout for **desktop and mobile** (breakpoint ~768px)
+- Branding: **brengseek** (internal package / Docker image name remains `litewebui`)
 
 ### For reading AI answers
 - Markdown: headings, lists (including nested), tables, quotes, task lists
@@ -60,6 +66,7 @@ Most full chat platforms are heavy (many services, high RAM, complex setup).
 - Environment-based config (no secrets baked into the binary for production)
 - Docker + Docker Compose + simple VPS deploy script
 - Static UI files are **embedded** in the binary → one file to deploy after build
+- After UI changes: rebuild image/binary, recreate container, hard-refresh; check `litewebui-build` in the HTML
 
 ---
 

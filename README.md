@@ -45,6 +45,7 @@ Most full chat platforms are heavy (many services, high RAM, complex setup).
 - Sidebar: new chat, recent chats, rename, delete, pin/archive (as implemented in the UI)
 - Streaming replies (text appears as the model generates it)
 - Attachments: upload files/images and send them with the message
+- Paste screenshots (Ctrl+V) or drag-and-drop files onto the composer
 - Settings page: API base URL, API key, connection test, model list from upstream
 
 ### For reading AI answers

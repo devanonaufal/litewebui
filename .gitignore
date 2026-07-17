@@ -1,0 +1,15 @@
+﻿data/
+.env
+*.db
+*.sqlite
+*.sqlite3
+litewebui
+litewebui-linux
+litewebui.exe
+*.exe
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+scratch_*.js

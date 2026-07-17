@@ -3722,3 +3722,9 @@ html.dark .msg.user .bubble {
     padding: 0 0.75rem !important;
   }
 }
+/* paste / drag-drop attach */
+.composer.drag-over .composer-box {
+  outline: 2px solid #4d6bfe;
+  outline-offset: 2px;
+  background: rgba(77, 107, 254, 0.08);
+}

@@ -1,0 +1,14 @@
+﻿.git
+.gitignore
+data
+*.db
+.env
+litewebui
+litewebui-linux
+litewebui.exe
+README.md
+LICENSE
+docker-compose.yml
+deploy-vps.sh
+.dockerignore
+*.md

@@ -126,7 +126,7 @@
 
   async function uploadFile(file) {
     const fd = new FormData();
-    fd.append("file", file, file.name);
+    fd.append("file", file, file.name || "paste.png");
     const r = await api("/api/files", { method: "POST", body: fd });
     if (!r.ok) {
       const t = await r.text();
@@ -135,24 +135,83 @@
     return r.json();
   }
 
+  async function addLocalFiles(fileList) {
+    const files = [...(fileList || [])].filter(Boolean);
+    if (!files.length) return;
+    for (const file of files) {
+      try {
+        const meta = await uploadFile(file);
+        if (meta.content_type && meta.content_type.startsWith("image/")) {
+          meta.preview = URL.createObjectURL(file);
+        }
+        pendingFiles.push(meta);
+        renderAttachPreview();
+      } catch (e) {
+        alert("Upload gagal: " + (e && e.message ? e.message : e));
+      }
+    }
+    syncSendEnabled();
+  }
+
   if (btnAttach && fileInput) {
     btnAttach.onclick = () => fileInput.click();
     fileInput.onchange = async () => {
       const files = [...(fileInput.files || [])];
       fileInput.value = "";
-      for (const file of files) {
-        try {
-          const meta = await uploadFile(file);
-          if (meta.content_type && meta.content_type.startsWith("image/")) {
-            meta.preview = URL.createObjectURL(file);
-          }
-          pendingFiles.push(meta);
-          renderAttachPreview();
-        } catch (e) {
-          alert("Upload gagal: " + e.message);
+      await addLocalFiles(files);
+    };
+  }
+
+  // Paste screenshot / drag-drop (bind once on .composer so paste does not double-fire)
+  function onComposerPaste(e) {
+    const cd = e.clipboardData;
+    if (!cd) return;
+    const fromItems = [];
+    if (cd.items && cd.items.length) {
+      for (const it of cd.items) {
+        if (it.kind === "file") {
+          const f = it.getAsFile();
+          if (f) fromItems.push(f);
         }
       }
+    }
+    const fromFiles = cd.files && cd.files.length ? [...cd.files] : [];
+    const files = fromItems.length ? fromItems : fromFiles;
+    const images = files.filter((f) => f && (f.type || "").startsWith("image/"));
+    if (!images.length) return;
+    e.preventDefault();
+    const named = images.map((f, i) => {
+      if (f.name) return f;
+      const ext = (f.type.split("/")[1] || "png").replace(/[^a-z0-9]/gi, "") || "png";
+      return new File([f], `paste-${Date.now()}-${i}.${ext}`, { type: f.type || "image/png" });
+    });
+    addLocalFiles(named);
+  }
+
+  const composerEl = document.querySelector(".composer");
+  if (composerEl) {
+    const onDragOver = (e) => {
+      if (![...e.dataTransfer.types].includes("Files")) return;
+      e.preventDefault();
+      composerEl.classList.add("drag-over");
     };
+    const onDragLeave = (e) => {
+      if (e.target === composerEl || !composerEl.contains(e.relatedTarget)) {
+        composerEl.classList.remove("drag-over");
+      }
+    };
+    const onDrop = (e) => {
+      composerEl.classList.remove("drag-over");
+      const files = e.dataTransfer && e.dataTransfer.files;
+      if (!files || !files.length) return;
+      e.preventDefault();
+      addLocalFiles(files);
+    };
+    composerEl.addEventListener("paste", onComposerPaste);
+    composerEl.addEventListener("dragenter", onDragOver);
+    composerEl.addEventListener("dragover", onDragOver);
+    composerEl.addEventListener("dragleave", onDragLeave);
+    composerEl.addEventListener("drop", onDrop);
   }
 
   function clearPending() {

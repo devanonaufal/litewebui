@@ -3728,3 +3728,1126 @@ html.dark .msg.user .bubble {
   outline-offset: 2px;
   background: rgba(77, 107, 254, 0.08);
 }
+/* ============================================================
+   litewebui-build-71 — UI restore (pre-optimize quality)
+   mode chip + voice + brand + private + adaptive shell
+   ============================================================ */
+
+:root {
+  --brand: #4D6BFE;
+  --brand-soft: #6B8CFF;
+  --composer-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* Brand / empty title */
+.sb-name,
+.nav-brand-name,
+.empty-title,
+#empty-title {
+  color: var(--brand) !important;
+  -webkit-text-fill-color: var(--brand) !important;
+  font-weight: 700 !important;
+}
+html.theme-dark .empty-title,
+html.dark .empty-title,
+html.theme-dark #empty-title,
+html.dark #empty-title {
+  color: var(--brand-soft) !important;
+  -webkit-text-fill-color: var(--brand-soft) !important;
+}
+.empty-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+.empty-mark,
+.empty-avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.empty-mark img,
+.empty-avatar img,
+.ds-logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.sb-logo .ds-logo-img,
+.nav-brand-logo {
+  width: 100%;
+  height: 100%;
+}
+.sb-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.sb-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+.sb-name {
+  line-height: 1.1;
+  transform: translateY(1px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Navbar brand when sidebar collapsed / mobile drawer closed */
+.nav-brand-left {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  flex: 1;
+}
+.app.sidebar-collapsed .nav-brand-left,
+body.is-mobile:not(.sidebar-drawer-open) .nav-brand-left {
+  display: flex !important;
+}
+.nav-brand-mark,
+.nav-brand-name {
+  display: none;
+}
+.app.sidebar-collapsed .nav-brand-mark,
+body.is-mobile:not(.sidebar-drawer-open) .nav-brand-mark {
+  display: flex !important;
+  width: 1.4rem;
+  height: 1.4rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+.app.sidebar-collapsed .nav-brand-name,
+body.is-mobile:not(.sidebar-drawer-open) .nav-brand-name {
+  display: inline-flex !important;
+  font-weight: 700;
+  font-size: 1.02rem;
+  align-items: center;
+  letter-spacing: -0.01em;
+}
+body.is-mobile.sidebar-drawer-open .nav-brand-mark,
+body.is-mobile.sidebar-drawer-open .nav-brand-name {
+  display: none !important;
+}
+
+/* Composer pill layout — actions group */
+.composer-box {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto !important;
+  align-items: end !important;
+}
+.composer-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  flex-shrink: 0;
+  margin: 0 0 0.05rem !important;
+}
+
+/* Model chip (composer) */
+.mode-wrap,
+.model-picker-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.mode-chip,
+.model-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.28rem !important;
+  max-width: 11.5rem;
+  height: 2.15rem;
+  padding: 0 0.65rem 0 0.75rem !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  white-space: nowrap;
+  box-shadow: none !important;
+  transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
+}
+.mode-chip:hover,
+.model-chip:hover {
+  background: #e8eaed !important;
+  border-color: rgba(15, 23, 42, 0.14) !important;
+}
+.mode-chip:focus-visible,
+.model-chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(77, 107, 254, 0.18) !important;
+}
+html.theme-dark .mode-chip,
+html.dark .mode-chip,
+html.theme-dark .model-chip,
+html.dark .model-chip {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f3f4f6 !important;
+}
+html.theme-dark .mode-chip:hover,
+html.dark .mode-chip:hover,
+html.theme-dark .model-chip:hover,
+html.dark .model-chip:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+#model-chip-label {
+  max-width: 8.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+.mode-chev {
+  flex-shrink: 0;
+  opacity: 0.65;
+  width: 14px;
+  height: 14px;
+}
+
+/* Model dropdown menu */
+.mode-menu,
+.model-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.45rem);
+  z-index: 60;
+  min-width: 12.5rem;
+  max-width: min(20rem, 86vw);
+  max-height: min(16rem, 45vh);
+  overflow: auto;
+  padding: 0.35rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.14);
+}
+html.theme-dark .mode-menu,
+html.dark .mode-menu,
+html.theme-dark .model-menu,
+html.dark .model-menu {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+.mode-menu.hidden,
+.model-menu.hidden {
+  display: none !important;
+}
+.mode-item,
+.model-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.84rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mode-item:hover,
+.model-item:hover {
+  background: rgba(77, 107, 254, 0.1);
+}
+.mode-item.active,
+.model-item.active {
+  background: rgba(77, 107, 254, 0.14);
+  color: var(--brand);
+  font-weight: 600;
+}
+
+/* Voice / dictation buttons — soft round, match chip height */
+.voice-btn {
+  width: 2.15rem !important;
+  height: 2.15rem !important;
+  min-width: 2.15rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  background: #f3f4f6 !important;
+  color: #6b7280 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease, transform 0.12s ease !important;
+}
+.voice-btn:hover {
+  background: #e8eaed !important;
+  color: #111827 !important;
+}
+.voice-btn:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+html.theme-dark .voice-btn,
+html.dark .voice-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #a3a3a3 !important;
+}
+html.theme-dark .voice-btn:hover,
+html.dark .voice-btn:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+}
+.voice-btn.active,
+body.dictation-on .dictation-btn {
+  color: #fff !important;
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+.voice-mode-btn.active,
+body.voice-mode-on .voice-mode-btn {
+  background: #111827 !important;
+  color: #fff !important;
+  border-color: #111827 !important;
+}
+html.theme-dark .voice-mode-btn.active,
+html.dark .voice-mode-btn.active,
+html.theme-dark body.voice-mode-on .voice-mode-btn,
+html.dark body.voice-mode-on .voice-mode-btn {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: #fff !important;
+}
+
+/* Send button — soft brand when ready (light) */
+html.theme-light .send-btn:not(:disabled),
+html.light .send-btn:not(:disabled) {
+  background: #c7d2fe !important;
+  color: #1e3a8a !important;
+}
+html.theme-light .send-btn:not(:disabled):hover,
+html.light .send-btn:not(:disabled):hover {
+  background: #a5b4fc !important;
+}
+html.theme-light .send-btn:disabled,
+html.light .send-btn:disabled {
+  background: #e5e7eb !important;
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+/* Private */
+.private-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(127, 127, 127, 0.28);
+  background: transparent;
+  padding: 0.38rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: inherit;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.private-btn:hover {
+  background: rgba(127, 127, 127, 0.08);
+}
+.private-btn.active {
+  background: rgba(77, 107, 254, 0.12);
+  border-color: rgba(77, 107, 254, 0.45);
+  color: var(--brand);
+}
+body.private-mode .main-wrap {
+  position: relative;
+}
+body.private-mode .main-wrap::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.1) 50%, transparent 78%);
+}
+html.theme-light body.private-mode .main-wrap::before,
+html.light body.private-mode .main-wrap::before {
+  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(40, 35, 70, 0.16) 0%, rgba(40, 35, 70, 0.05) 52%, transparent 80%);
+}
+body.private-mode .navbar,
+body.private-mode .composer,
+body.private-mode .messages {
+  position: relative;
+  z-index: 2;
+}
+.private-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  opacity: 0.78;
+  margin: 0.4rem 0 0;
+}
+.private-hint.hidden {
+  display: none !important;
+}
+
+/* Voice overlay */
+.voice-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.48);
+  padding: 1rem;
+}
+.voice-overlay.hidden {
+  display: none !important;
+}
+.voice-overlay-card {
+  width: min(22rem, 100%);
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+  border-radius: 1.25rem;
+  background: rgba(24, 24, 28, 0.96);
+  color: #f5f5f5;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+html.theme-light .voice-overlay-card,
+html.light .voice-overlay-card {
+  background: rgba(255, 255, 255, 0.98);
+  color: #111;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+}
+.voice-overlay-bars {
+  display: flex;
+  gap: 0.32rem;
+  justify-content: center;
+  align-items: flex-end;
+  height: 2.5rem;
+  margin-bottom: 0.95rem;
+}
+.voice-overlay-bars span {
+  width: 0.3rem;
+  border-radius: 99px;
+  background: var(--brand);
+  animation: vbar 0.9s ease-in-out infinite;
+}
+.voice-overlay-bars span:nth-child(1) { height: 35%; }
+.voice-overlay-bars span:nth-child(2) { height: 70%; animation-delay: 0.1s; }
+.voice-overlay-bars span:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+.voice-overlay-bars span:nth-child(4) { height: 60%; animation-delay: 0.3s; }
+.voice-overlay-bars span:nth-child(5) { height: 40%; animation-delay: 0.4s; }
+@keyframes vbar {
+  0%, 100% { transform: scaleY(0.45); opacity: 0.7; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+.voice-overlay-status {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0 0 0.35rem;
+}
+.voice-overlay-partial {
+  min-height: 1.25rem;
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin: 0 0 1rem;
+}
+.voice-exit-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--brand);
+  color: #fff;
+}
+.voice-overlay-hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.72rem;
+  opacity: 0.55;
+}
+
+/* Mic toast */
+.mic-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.15rem + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%) translateY(120%);
+  z-index: 9999;
+  max-width: min(22rem, calc(100vw - 1.5rem));
+  padding: 0.72rem 1.05rem;
+  border-radius: 0.9rem;
+  background: rgba(20, 20, 24, 0.94);
+  color: #f5f5f5;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+.mic-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+html.theme-light .mic-toast,
+html.light .mic-toast {
+  background: rgba(255, 255, 255, 0.98);
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Hide speech buttons only when no STT path */
+html.no-speech-recognition:not(.has-media-stt) .dictation-btn,
+html.no-speech-recognition:not(.has-media-stt) .voice-mode-btn {
+  display: none !important;
+}
+html.no-speech-recognition.has-media-stt .dictation-btn,
+html.no-speech-recognition.has-media-stt .voice-mode-btn {
+  display: grid !important;
+}
+
+/* Adaptive desktop vs mobile */
+@media (min-width: 769px) {
+  .composer {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+  .composer-box {
+    padding: 0.6rem 0.6rem 0.6rem 0.75rem !important;
+  }
+}
+@media (max-width: 768px) {
+  .composer textarea,
+  #input {
+    font-size: 16px !important;
+  }
+  .voice-overlay {
+    position: fixed !important;
+  }
+  .model-chip,
+  .mode-chip {
+    max-width: min(7.5rem, 38vw);
+    height: 2.05rem;
+    padding: 0 0.5rem 0 0.6rem !important;
+    font-size: 0.78rem !important;
+  }
+  #model-chip-label {
+    max-width: 5.2rem;
+  }
+  .private-btn {
+    font-size: 0.78rem;
+    padding: 0.32rem 0.55rem;
+  }
+  .composer-actions {
+    gap: 0.28rem !important;
+  }
+  .voice-btn,
+  .send-btn,
+  .attach-btn {
+    width: 2.05rem !important;
+    height: 2.05rem !important;
+    min-width: 2.05rem !important;
+  }
+}
+@media (max-width: 380px) {
+  .private-btn span {
+    display: none;
+  }
+  .model-chip,
+  .mode-chip {
+    max-width: min(6.2rem, 34vw);
+  }
+}
+
+/* Viewport / scroll polish */
+html, body, .app {
+  min-height: 100%;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+.messages,
+.conv-list,
+.mode-menu,
+.model-menu {
+  scrollbar-width: thin;
+}
+
+/* litewebui-build-72 — private btn right + navbar */
+.navbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+.nav-brand-left {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+}
+.model-selector,
+.model-selector-hidden,
+.navbar .model-selector[hidden] {
+  display: none !important;
+  flex: 0 0 0 !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.nav-right {
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.35rem !important;
+  flex: 0 0 auto !important;
+}
+.navbar .private-btn.active {
+  background: rgba(77, 107, 254, 0.12) !important;
+  border-color: rgba(77, 107, 254, 0.45) !important;
+  color: #4D6BFE !important;
+}
+html.theme-dark .navbar .private-btn.active,
+html.dark .navbar .private-btn.active {
+  background: rgba(107, 140, 255, 0.16) !important;
+  color: #6B8CFF !important;
+}
+
+/* litewebui-build-74 — private mode blur/dim like before */
+body.private-mode .main-wrap {
+  position: relative !important;
+  isolation: isolate;
+}
+body.private-mode .main-wrap::before {
+  content: "" !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  background:
+    radial-gradient(ellipse 75% 60% at 50% 40%, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.18) 45%, transparent 78%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.22)) !important;
+  backdrop-filter: blur(10px) saturate(0.85) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(0.85) !important;
+}
+html.theme-light body.private-mode .main-wrap::before,
+html.light body.private-mode .main-wrap::before {
+  background:
+    radial-gradient(ellipse 75% 60% at 50% 40%, rgba(30, 27, 60, 0.28) 0%, rgba(30, 27, 60, 0.1) 48%, transparent 80%),
+    linear-gradient(to bottom, rgba(40, 35, 70, 0.08), rgba(40, 35, 70, 0.14)) !important;
+  backdrop-filter: blur(12px) saturate(0.9) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(0.9) !important;
+}
+/* soft blur on chat surface (content still readable) */
+body.private-mode .messages {
+  filter: blur(0.35px) !important;
+}
+body.private-mode .messages .msg .bubble {
+  filter: none !important;
+  opacity: 0.92;
+}
+body.private-mode .navbar,
+body.private-mode .composer,
+body.private-mode .messages,
+body.private-mode .voice-overlay {
+  position: relative !important;
+  z-index: 2 !important;
+}
+/* empty state also sits under dim */
+body.private-mode .empty {
+  position: relative;
+  z-index: 2;
+}
+
+/* litewebui-build-74b — private dim ON TOP of chat (pointer-events none) */
+body.private-mode .main-wrap {
+  position: relative !important;
+}
+body.private-mode .main-wrap::after {
+  content: "" !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 68% 52% at 50% 42%, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.28) 55%, rgba(0, 0, 0, 0.48) 100%),
+    rgba(0, 0, 0, 0.14) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+html.theme-light body.private-mode .main-wrap::after,
+html.light body.private-mode .main-wrap::after {
+  background:
+    radial-gradient(ellipse 68% 52% at 50% 42%, rgba(40, 35, 70, 0.04) 0%, rgba(40, 35, 70, 0.16) 52%, rgba(30, 27, 55, 0.32) 100%),
+    rgba(45, 40, 70, 0.1) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+/* keep controls usable above dim */
+body.private-mode .navbar,
+body.private-mode .composer,
+body.private-mode .voice-overlay {
+  position: relative !important;
+  z-index: 40 !important;
+}
+/* messages stay under frost (read through blur) — no raise */
+body.private-mode .messages {
+  position: relative !important;
+  z-index: 1 !important;
+  filter: none !important;
+}
+body.private-mode .main-wrap::before {
+  /* disable weak underlay from older pack */
+  display: none !important;
+}
+
+/* litewebui-build-75 — empty logo+title row; hide empty when chat */
+.empty-hero {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  margin-bottom: 0.15rem !important;
+}
+.empty-mark,
+.empty-avatar {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  border-radius: 9999px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06) !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+.empty-avatar .ds-logo-img,
+.empty-mark .ds-logo-img {
+  width: 1.55rem !important;
+  height: 1.55rem !important;
+  object-fit: contain !important;
+}
+html.theme-dark .empty-avatar,
+html.dark .empty-avatar,
+html.theme-dark .empty-mark,
+html.dark .empty-mark {
+  background: #2a2a2a !important;
+  box-shadow: none !important;
+}
+.empty-title,
+#empty-title {
+  margin: 0 !important;
+  font-size: clamp(1.55rem, 3.5vw, 2rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.1 !important;
+  color: #4D6BFE !important;
+  -webkit-text-fill-color: #4D6BFE !important;
+}
+/* ensure empty truly disappears when chatting */
+#empty.hidden,
+.empty.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+/* shell fallback */
+.main-wrap.has-chat #empty,
+.main-wrap.has-chat .empty {
+  display: none !important;
+}
+.main-wrap.is-empty #empty:not(.hidden),
+.main-wrap.is-empty .empty:not(.hidden) {
+  display: flex !important;
+}
+
+/* litewebui-build-75b force row empty */
+.empty-hero{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:.75rem!important}
+#empty.hidden,.empty.hidden{display:none!important}
+.main-wrap.has-chat #empty{display:none!important}
+
+
+/* litewebui-build-76 — force hide empty hero when chatting */
+#empty.hidden,
+.empty.hidden,
+#empty[hidden],
+.main-wrap.has-chat #empty,
+.main-wrap.has-chat .empty,
+body:has(.msg) #empty {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+/* litewebui-build-77 — sidebar brand row symmetry */
+.sb-top {
+  padding: 0.7rem 0.7rem 0.35rem !important;
+}
+.sb-brand {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.5rem !important;
+  padding: 0.2rem 0.15rem 0.65rem !important;
+  min-height: 2.25rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.sb-logo {
+  width: 1.65rem !important;
+  height: 1.65rem !important;
+  min-width: 1.65rem !important;
+  border-radius: 0.4rem !important;
+  background: transparent !important;
+  display: grid !important;
+  place-items: center !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+}
+.sb-logo .ds-logo-img {
+  width: 1.45rem !important;
+  height: 1.45rem !important;
+  display: block !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+}
+.sb-name {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.65rem !important;
+  height: 1.65rem !important;
+  display: flex !important;
+  align-items: center !important;
+  transform: none !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.sb-brand .sb-panel-btn,
+.sb-brand #btn-sidebar-close {
+  width: 1.85rem !important;
+  height: 1.85rem !important;
+  min-width: 1.85rem !important;
+  margin: 0 0 0 auto !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  flex-shrink: 0 !important;
+  border-radius: 0.5rem !important;
+  align-self: center !important;
+}
+.sb-brand .sb-panel-btn svg {
+  display: block !important;
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+}
+.sb-new-chat {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.55rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-height: 2.45rem !important;
+  padding: 0.55rem 0.85rem !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+.sb-new-chat .sb-new-ico {
+  flex-shrink: 0 !important;
+  display: block !important;
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+}
+.sb-new-chat span {
+  line-height: 1.2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* litewebui-build-79 — private: soft dim only, no blur */
+body.private-mode .main-wrap::before {
+  display: none !important;
+}
+body.private-mode .main-wrap::after {
+  content: "" !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  border-radius: inherit;
+  background: rgba(0, 0, 0, 0.14) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+html.theme-light body.private-mode .main-wrap::after,
+html.light body.private-mode .main-wrap::after {
+  background: rgba(30, 27, 50, 0.1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.theme-dark body.private-mode .main-wrap::after,
+html.dark body.private-mode .main-wrap::after {
+  background: rgba(0, 0, 0, 0.22) !important;
+}
+body.private-mode .messages {
+  filter: none !important;
+}
+body.private-mode .navbar,
+body.private-mode .composer,
+body.private-mode .voice-overlay {
+  position: relative !important;
+  z-index: 40 !important;
+}
+body.private-mode .messages {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+
+/* litewebui-build-80 — empty hero larger + precise; private exit OK in JS */
+.empty-hero {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.9rem !important;
+}
+.empty-mark,
+.empty-avatar,
+#empty-avatar {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  min-width: 3.5rem !important;
+  min-height: 3.5rem !important;
+  border-radius: 9999px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08) !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+}
+.empty-avatar .ds-logo-img,
+.empty-mark .ds-logo-img,
+#empty-avatar .ds-logo-img {
+  width: 2rem !important;
+  height: 2rem !important;
+  display: block !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+}
+html.theme-dark .empty-avatar,
+html.dark .empty-avatar,
+html.theme-dark #empty-avatar,
+html.dark #empty-avatar {
+  background: #2a2a2a !important;
+  box-shadow: none !important;
+}
+.empty-title,
+#empty-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: clamp(2rem, 4.2vw, 2.55rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 3.5rem !important;
+  height: 3.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  color: #4D6BFE !important;
+  -webkit-text-fill-color: #4D6BFE !important;
+  transform: none !important;
+}
+.empty-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.35rem !important;
+}
+
+/* litewebui-build-81 — empty hero optical precision */
+.empty {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.empty.hidden,
+#empty.hidden {
+  display: none !important;
+}
+.empty-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  transform: translateY(-6vh) !important;
+}
+.empty-hero {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.85rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  line-height: 0 !important;
+}
+.empty-mark,
+.empty-avatar,
+#empty-avatar {
+  box-sizing: border-box !important;
+  width: 3.25rem !important;
+  height: 3.25rem !important;
+  min-width: 3.25rem !important;
+  max-width: 3.25rem !important;
+  min-height: 3.25rem !important;
+  max-height: 3.25rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 14px rgba(15, 23, 42, 0.06) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 3.25rem !important;
+  overflow: hidden !important;
+  line-height: 0 !important;
+  vertical-align: middle !important;
+}
+.empty-avatar .ds-logo-img,
+.empty-mark .ds-logo-img,
+#empty-avatar img,
+#empty-avatar .ds-logo-img {
+  box-sizing: border-box !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  min-width: 1.75rem !important;
+  min-height: 1.75rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  flex-shrink: 0 !important;
+}
+html.theme-dark .empty-avatar,
+html.dark .empty-avatar,
+html.theme-dark #empty-avatar,
+html.dark #empty-avatar {
+  background: #2f2f2f !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) !important;
+}
+.empty-title,
+#empty-title {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif !important;
+  font-size: 2.15rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.045em !important;
+  line-height: 1 !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #4D6BFE !important;
+  -webkit-text-fill-color: #4D6BFE !important;
+  transform: none !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+}
+html.theme-dark .empty-title,
+html.dark .empty-title,
+html.theme-dark #empty-title,
+html.dark #empty-title {
+  color: #6B8CFF !important;
+  -webkit-text-fill-color: #6B8CFF !important;
+}
+@media (max-width: 480px) {
+  .empty-title,
+  #empty-title {
+    font-size: 1.75rem !important;
+  }
+  .empty-mark,
+  .empty-avatar,
+  #empty-avatar {
+    width: 2.85rem !important;
+    height: 2.85rem !important;
+    min-width: 2.85rem !important;
+    max-width: 2.85rem !important;
+    min-height: 2.85rem !important;
+    max-height: 2.85rem !important;
+    flex-basis: 2.85rem !important;
+  }
+  .empty-avatar .ds-logo-img,
+  #empty-avatar img {
+    width: 1.55rem !important;
+    height: 1.55rem !important;
+  }
+  .empty-hero {
+    gap: 0.7rem !important;
+  }
+}

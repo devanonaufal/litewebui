@@ -1,24 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" class="theme-dark">
+<html lang="en" class="theme-light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f0f10" />
-  <meta name="color-scheme" content="dark light" />
-  <title>litewebui</title><!-- litewebui-build-42 -->
+  <meta name="theme-color" content="#f7f7f8" />
+  <meta name="color-scheme" content="light dark" />
+  <title>brengseek</title><!-- litewebui-build-82 -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css?v=42" />
-  <link rel="icon" href="/favicon.svg" />
+  <script>
+/* compatBoot-inline */
+(function(){try{var u=navigator.userAgent||'',r=document.documentElement;
+r.classList.toggle('browser-ff',/firefox\/\d+/i.test(u));
+r.classList.toggle('browser-safari',/safari/i.test(u)&&!/chrome|chromium|crios|edg|android/i.test(u));
+r.classList.toggle('browser-ios',/iphone|ipad|ipod/i.test(u)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1));
+r.classList.toggle('browser-android',/android/i.test(u));
+r.classList.toggle('no-speech-recognition',!(window.SpeechRecognition||window.webkitSpeechRecognition));
+r.classList.toggle('touch-ui',window.matchMedia&&matchMedia('(pointer: coarse)').matches);
+}catch(e){}})();
+</script>
+  <link rel="stylesheet" href="/style.css?v=82" />
+  <link rel="icon" href="/favicon.svg?v=82" />
 </head>
 <body>
   <!-- Login -->
   <div id="login" class="login">
     <div class="login-card">
-      <div class="login-logo" aria-hidden="true"><img class="ds-logo-img" src="/favicon.svg" alt="litewebui" width="28" height="28" /></div>
-      <h1>litewebui</h1>
-      <p class="login-sub">Sign in to litewebui</p>
+      <div class="login-logo" aria-hidden="true"><img class="ds-logo-img" src="/favicon.svg?v=82" alt="brengseek" width="28" height="28" /></div>
+      <h1>brengseek</h1>
+      <p class="login-sub">Sign in to brengseek</p>
       <form id="login-form">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" autocomplete="username" placeholder="Enter Your Username" required />
@@ -35,8 +46,8 @@
     <aside class="sidebar" id="sidebar">
       <div class="sb-top">
         <div class="sb-brand">
-          <div class="sb-logo" aria-hidden="true"><img class="ds-logo-img" src="/favicon.svg" alt="litewebui" width="28" height="28" /></div>
-          <span class="sb-name">litewebui</span>
+          <div class="sb-logo" aria-hidden="true"><img class="ds-logo-img" src="/favicon.svg?v=82" alt="brengseek" width="28" height="28" /></div>
+          <span class="sb-name">brengseek</span>
           <button type="button" id="btn-sidebar-close" class="icon-btn sb-panel-btn" title="Close sidebar" aria-label="Close sidebar">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               <rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/>
@@ -94,44 +105,83 @@
 
     <div class="main-wrap">
       <nav class="navbar">
-        <button type="button" id="btn-menu" class="icon-btn sb-panel-btn" title="Open sidebar" aria-label="Open sidebar">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-            <rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/>
-            <path d="M9.5 4.5v15"/>
-          </svg>
-        </button>
-        <div class="model-selector">
-          <select id="model" title="Model"></select>
+        <div class="nav-brand-left">
+          <button type="button" id="btn-menu" class="icon-btn sb-panel-btn" title="Open sidebar" aria-label="Open sidebar">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/>
+              <path d="M9.5 4.5v15"/>
+            </svg>
+          </button>
+          <div class="nav-brand-mark" aria-hidden="true">
+            <img class="ds-logo-img nav-brand-logo" src="/favicon.svg?v=82" alt="" width="22" height="22" />
+          </div>
+          <span class="nav-brand-name">brengseek</span>
         </div>
-        <div class="nav-right"></div>
+        <div class="model-selector model-selector-hidden" hidden>
+          <select id="model" title="Model" aria-hidden="true" tabindex="-1"></select>
+        </div>
+        <div class="nav-right">
+          <button type="button" id="btn-private" class="private-btn" aria-pressed="false" title="Private chat - not listed in history">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path stroke-linecap="round" d="M9.5 12l1.8 1.8L15 10"/></svg>
+            <span>Private</span>
+          </button>
+        </div>
       </nav>
 
       <div id="messages" class="messages">
         <div id="empty" class="empty">
           <div class="empty-inner">
             <div class="empty-hero">
-              <div class="empty-avatar" id="empty-avatar"><img class="ds-logo-img" src="/favicon.svg" alt="" /></div>
-              <div class="empty-title" id="empty-title">litewebui</div>
+              <div class="empty-mark empty-avatar" id="empty-avatar" aria-hidden="true">
+                <img class="ds-logo-img" src="/favicon.svg?v=82" alt="" width="48" height="48" />
+              </div>
+              <h1 class="empty-title" id="empty-title">brengseek</h1>
             </div>
-            <div class="empty-sub">What do you need?</div>
           </div>
         </div>
       </div>
 
+
+      <div id="voice-overlay" class="voice-overlay hidden" aria-hidden="true">
+        <div class="voice-overlay-card">
+          <div class="voice-overlay-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <p id="voice-overlay-status" class="voice-overlay-status">Voice mode</p>
+          <p id="voice-overlay-partial" class="voice-overlay-partial"></p>
+          <button type="button" id="btn-voice-exit" class="voice-exit-btn">Exit voice mode</button>
+          <p class="voice-overlay-hint">Browser speech · Esc to exit</p>
+        </div>
+      </div>
       <footer class="composer">
         <div id="attach-preview" class="attach-preview hidden"></div>
         <div class="composer-box">
           <input type="file" id="file-input" class="hidden" multiple />
           <button type="button" id="btn-attach" class="icon-btn attach-btn" title="Upload image or file" aria-label="Attach">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 8.25l-10.94 10.94a1.5 1.5 0 11-2.121-2.121l7.773-7.773"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
           </button>
-          <textarea id="input" rows="1" placeholder="What do you need?"></textarea>
+          <textarea id="input" rows="1" placeholder="What do you want to know?"></textarea>
           <div class="composer-actions">
+            <div class="mode-wrap model-picker-wrap">
+              <button type="button" id="btn-model" class="mode-chip model-chip" aria-haspopup="listbox" aria-expanded="false" title="Select model">
+                <span id="model-chip-label">Model</span>
+                <svg class="mode-chev" viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 8l4 4 4-4"/></svg>
+              </button>
+              <div id="model-menu" class="mode-menu model-menu hidden" role="listbox" aria-label="Models"></div>
+            </div>
+            <button type="button" id="btn-dictation" class="voice-btn dictation-btn" title="Dictation (Ctrl+D)" aria-label="Dictation" aria-pressed="false">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14a3 3 0 003-3V7a3 3 0 10-6 0v4a3 3 0 003 3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-14 0M12 18v3"/></svg>
+            </button>
+            <button type="button" id="btn-voice-mode" class="voice-btn voice-mode-btn" title="Enter voice mode (Ctrl+Shift+O)" aria-label="Enter voice mode" aria-pressed="false">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="4" y="9" width="2.2" height="6" rx="1"/><rect x="8.2" y="6" width="2.2" height="12" rx="1"/><rect x="12.4" y="8" width="2.2" height="8" rx="1"/><rect x="16.6" y="5" width="2.2" height="14" rx="1"/></svg>
+            </button>
             <button type="button" id="btn-send" class="send-btn" title="Send" aria-label="Send">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg>
             </button>
           </div>
         </div>
+        <p id="private-hint" class="private-hint hidden">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/></svg>
+          This chat won't appear in your history.
+        </p>
         <p class="disclaimer">LLMs can make mistakes. Check important info.</p>
       </footer>
     </div>
@@ -206,6 +256,6 @@
   </div>
   <div id="sidebar-backdrop" class="backdrop hidden"></div>
   <div id="conv-menu" class="conv-menu hidden" role="menu"></div>
-  <script src="/app.js?v=42"></script>
+  <script src="/app.js?v=82"></script>
 </body>
 </html>

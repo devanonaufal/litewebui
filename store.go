@@ -84,6 +84,7 @@ func (s *store) migrate() error {
 	_, _ = s.db.Exec(`ALTER TABLE messages ADD COLUMN attachments TEXT NOT NULL DEFAULT '[]'`)
 	_, _ = s.db.Exec(`ALTER TABLE conversations ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0`)
 	_, _ = s.db.Exec(`ALTER TABLE conversations ADD COLUMN archived INTEGER NOT NULL DEFAULT 0`)
+	_, _ = s.db.Exec(`ALTER TABLE conversations ADD COLUMN private INTEGER NOT NULL DEFAULT 0`)
 	return nil
 }
 
@@ -282,6 +283,7 @@ type conversation struct {
 	Model     string    `json:"model"`
 	Pinned    bool      `json:"pinned"`
 	Archived  bool      `json:"archived"`
+	Private   bool      `json:"private"`
 	CreatedAt int64     `json:"created_at"`
 	UpdatedAt int64     `json:"updated_at"`
 	Messages  []message `json:"messages,omitempty"`
@@ -414,9 +416,9 @@ func (s *store) handleConversations(w http.ResponseWriter, r *http.Request) {
 		}
 		rows, err := s.db.Query(
 			`SELECT id, title, model, created_at, updated_at,
-			        COALESCE(pinned,0), COALESCE(archived,0)
+			        COALESCE(pinned,0), COALESCE(archived,0), COALESCE(private,0)
 			 FROM conversations
-			 WHERE COALESCE(archived,0)=?
+			 WHERE COALESCE(archived,0)=? AND COALESCE(private,0)=0
 			 ORDER BY COALESCE(pinned,0) DESC, updated_at DESC
 			 LIMIT 200`,
 			arch,
@@ -429,44 +431,60 @@ func (s *store) handleConversations(w http.ResponseWriter, r *http.Request) {
 		list := []conversation{}
 		for rows.Next() {
 			var c conversation
-			var pin, ar int
-			if err := rows.Scan(&c.ID, &c.Title, &c.Model, &c.CreatedAt, &c.UpdatedAt, &pin, &ar); err != nil {
+			var pin, ar, priv int
+			if err := rows.Scan(&c.ID, &c.Title, &c.Model, &c.CreatedAt, &c.UpdatedAt, &pin, &ar, &priv); err != nil {
 				http.Error(w, err.Error(), 500)
 				return
 			}
 			c.Pinned = pin != 0
 			c.Archived = ar != 0
+			c.Private = priv != 0
 			list = append(list, c)
 		}
 		writeJSON(w, list)
 	case http.MethodPost:
 		r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
 		var in struct {
-			Title string `json:"title"`
-			Model string `json:"model"`
+			Title   string `json:"title"`
+			Model   string `json:"model"`
+			Private bool   `json:"private"`
 		}
 		_ = json.NewDecoder(r.Body).Decode(&in)
 		if in.Title == "" {
-			in.Title = "New chat"
+			if in.Private {
+				in.Title = "Private chat"
+			} else {
+				in.Title = "New chat"
+			}
 		}
 		now := time.Now().UnixMilli()
 		id := randToken(12)
+		priv := 0
+		if in.Private {
+			priv = 1
+		}
 		_, err := s.db.Exec(
-			`INSERT INTO conversations(id,title,model,created_at,updated_at,pinned,archived) VALUES(?,?,?,?,?,0,0)`,
-			id, in.Title, in.Model, now, now,
+			`INSERT INTO conversations(id,title,model,created_at,updated_at,pinned,archived,private) VALUES(?,?,?,?,?,0,0,?)`,
+			id, in.Title, in.Model, now, now, priv,
 		)
 		if err != nil {
-			// old schema without pinned/archived
+			// old schema without private
 			_, err = s.db.Exec(
-				`INSERT INTO conversations(id,title,model,created_at,updated_at) VALUES(?,?,?,?,?)`,
+				`INSERT INTO conversations(id,title,model,created_at,updated_at,pinned,archived) VALUES(?,?,?,?,?,0,0)`,
 				id, in.Title, in.Model, now, now,
 			)
 			if err != nil {
-				http.Error(w, err.Error(), 500)
-				return
+				_, err = s.db.Exec(
+					`INSERT INTO conversations(id,title,model,created_at,updated_at) VALUES(?,?,?,?,?)`,
+					id, in.Title, in.Model, now, now,
+				)
+				if err != nil {
+					http.Error(w, err.Error(), 500)
+					return
+				}
 			}
 		}
-		writeJSON(w, conversation{ID: id, Title: in.Title, Model: in.Model, CreatedAt: now, UpdatedAt: now})
+		writeJSON(w, conversation{ID: id, Title: in.Title, Model: in.Model, Private: in.Private, CreatedAt: now, UpdatedAt: now})
 	default:
 		http.Error(w, "method", http.StatusMethodNotAllowed)
 	}
@@ -504,11 +522,11 @@ func (s *store) handleConversation(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		var c conversation
-		var pin, ar int
+		var pin, ar, priv int
 		err := s.db.QueryRow(
-			`SELECT id, title, model, created_at, updated_at, COALESCE(pinned,0), COALESCE(archived,0)
+			`SELECT id, title, model, created_at, updated_at, COALESCE(pinned,0), COALESCE(archived,0), COALESCE(private,0)
 			 FROM conversations WHERE id=?`, id,
-		).Scan(&c.ID, &c.Title, &c.Model, &c.CreatedAt, &c.UpdatedAt, &pin, &ar)
+		).Scan(&c.ID, &c.Title, &c.Model, &c.CreatedAt, &c.UpdatedAt, &pin, &ar, &priv)
 		if err == sql.ErrNoRows {
 			http.Error(w, "not found", 404)
 			return
@@ -529,6 +547,7 @@ func (s *store) handleConversation(w http.ResponseWriter, r *http.Request) {
 		} else {
 			c.Pinned = pin != 0
 			c.Archived = ar != 0
+			c.Private = priv != 0
 		}
 		msgs, err := s.listMessages(id)
 		if err != nil {

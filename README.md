@@ -1,8 +1,10 @@
-# litewebui
+# brengseek
 
-**A simple, lightweight chat website for AI models.**
+**A simple, lightweight chat website for AI models.**  
+**Product name:** brengseek  
+**Repo / Docker / binary:** still litewebui (internal package name).
 
-litewebui is a private ChatGPT-style web app you can run on your own computer or VPS.  
+brengseek is a private ChatGPT-style web app you can run on your own computer or VPS.  
 It talks to any **OpenAI-compatible** API (local gateway, reverse proxy, cloud provider, etc.).
 
 | | |
@@ -16,7 +18,7 @@ It talks to any **OpenAI-compatible** API (local gateway, reverse proxy, cloud p
 
 ### Interface preview
 
-![litewebui chat interface](https://i.imgur.com/iCNlB5O.png)
+![brengseek chat interface](https://i.imgur.com/iOKi5U7.png)
 
 *Dark theme chat UI — sidebar, streaming messages, model picker, and composer.*
 
@@ -26,7 +28,7 @@ It talks to any **OpenAI-compatible** API (local gateway, reverse proxy, cloud p
 
 Most full chat platforms are heavy (many services, high RAM, complex setup).
 
-**litewebui** aims to be the opposite:
+**brengseek** aims to be the opposite:
 
 - One small program (or one Docker container)
 - Login with a single username/password
@@ -90,7 +92,7 @@ cd litewebui
 
 ### 2. Create a password hash
 
-litewebui does **not** store the plain password in the config.  
+brengseek does **not** store the plain password in the config.  
 You store the **SHA-256 fingerprint** of the password.
 
 **Linux:**
@@ -208,7 +210,7 @@ The hash in the example files is SHA-256 of `changeme`:
 
 ## Connecting your AI API
 
-litewebui is a **client + proxy**. It does not run models by itself.
+brengseek is a **client + proxy**. It does not run models by itself.
 
 1. Log in → open **Settings**
 2. Set **API endpoint** to an OpenAI-compatible base, usually ending with `/v1`  
